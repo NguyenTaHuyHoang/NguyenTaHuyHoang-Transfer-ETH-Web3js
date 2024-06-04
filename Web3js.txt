@@ -12,7 +12,7 @@
 Tạo terminal mới và cd vào fabric-chaincode-evm
 
 
-npm install web3@0.20.2
+npm install web3@0.20.7
 node
 Web3 = require('web3')
 web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
