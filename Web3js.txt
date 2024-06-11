@@ -15,10 +15,42 @@ Tạo terminal mới và cd vào fabric-chaincode-evm
 npm install web3@0.20.7
 node
 Web3 = require('web3')
-web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+web3ETH = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+web3Fabric = new Web3(new Web3.providers.HttpProvider('http://localhost:5000'))
 
 // ABI của smart contract
-var contractABI = [
+var contractETHABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnerBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
 	{
 		"inputs": [
 			{
@@ -33,11 +65,44 @@ var contractABI = [
 		"type": "function"
 	}
 ]; 
-var contractAddress = '0x9A79644973Da3c48e45C2c9A7879b9bE10c1803E'; // Địa chỉ của smart contract
-var contractInstance = web3.eth.contract(contractABI).at(contractAddress);
+var contractETHAddress = '0xD5aACE70fE8d9bC40A039e13E6C2C43812A23548'; // Địa chỉ của smart contract
+var contractETHInstance = web3ETH.eth.contract(contractETHABI).at(contractETHAddress);
+
+var contractFabricABI = [
+	{
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "setBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+var contractFabricAddress = '0x7B63D39BE1D47e2392F0e53B2778aE90491DB842';
+var contractFabricInstance = web3Fabric.eth.contract(contractFabricABI).at(contractFabricAddress);
+
+
 
 // Gọi hàm trong smart contract
-web3.eth.getAccounts(function(err, accounts) {
+web3ETH.eth.getAccounts(function(err, accounts) {
     if (err) {
         console.error('Error fetching accounts:', err);
         return;
@@ -46,9 +111,9 @@ web3.eth.getAccounts(function(err, accounts) {
         var recipientAddress = '0x3942B0Dd1B21D206512216B482697dE4915Fd72F';
         var AccountAddress = accounts[0]; // Địa chỉ của chủ sở hữu hợp đồng
         console.log('AccoundAddress', AccountAddress)
-	contractInstance.sendEth.sendTransaction(recipientAddress, {
+	contractETHInstance.sendEth.sendTransaction(recipientAddress, {
 	    from: AccountAddress,
-	    value: web3.toWei(1, 'ether'), // amount là số lượng ether bạn muốn gửi
+	    value: web3ETH.toWei(1, 'ether'), // amount là số lượng ether bạn muốn gửi
 	    gas: 300000 // Số gas tối đa bạn muốn sử dụng cho giao dịch
 	}, function(error, result) {
 	    if (!error) {
