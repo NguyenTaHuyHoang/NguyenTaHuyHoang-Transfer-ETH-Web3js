@@ -130,3 +130,8 @@ function getOwnerBalance(){
 	// console.log('Owner Balance in Ether:', balanceOwnerInEther);
 	return balanceOwnerInEther;
 }
+  #  Install the EVM chaincode on all the peers
+peer chaincode install -n evmcc -l golang -v 0 -p github.com/hyperledger/fabric-chaincode-evm/evmcc
+
+  # Khởi tạo EVMCC
+peer chaincode instantiate -n evmcc -v 0 -C mychannel -c '{"Args":[]}' -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem 
