@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-contract BalanceOfETH {
+contract MintTokenFabric {
     uint256 balance;
 
     function setBalance(uint256 value) public {
