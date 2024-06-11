@@ -125,7 +125,8 @@ web3ETH.eth.getAccounts(function(err, accounts) {
 });
 
 function getOwnerBalance(){
-	var balanceOwner = contractInstance.getOwnerBalance();
-	var balanceOwnerInEther = web3.fromWei(balanceOwner, 'ether');
-	console.log('Owner Balance in Ether:', balanceOwnerInEther);
+	var balanceOwner = contractETHInstance.getOwnerBalance();
+	var balanceOwnerInEther = web3ETH.fromWei(balanceOwner, 'ether');
+	// console.log('Owner Balance in Ether:', balanceOwnerInEther);
+	return balanceOwnerInEther;
 }
