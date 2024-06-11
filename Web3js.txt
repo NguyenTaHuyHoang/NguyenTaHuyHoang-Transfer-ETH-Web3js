@@ -21,8 +21,8 @@ Tạo terminal mới và cd vào fabric-chaincode-evm
 npm install web3@0.20.7
 node
 Web3 = require('web3')
-web3ETH = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-web3Fabric = new Web3(new Web3.providers.HttpProvider('http://localhost:5000'))
+web3ETH = new Web3(new Web3.providers.HttpProvider('http://localhost:8545')) // ETH
+web3Fabric = new Web3(new Web3.providers.HttpProvider('http://localhost:5000'))  // Fabric
 
 // ABI của smart contract
 contractETHABI = [
