@@ -24,7 +24,7 @@ web3ETH = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 web3Fabric = new Web3(new Web3.providers.HttpProvider('http://localhost:5000'))
 
 // ABI của smart contract
-var contractETHABI = [
+contractETHABI = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -77,7 +77,8 @@ contractETHInstance = web3ETH.eth.contract(contractETHABI).at(contractETHAddress
 
 web3Fabric.eth.accounts
 web3Fabric.eth.defaultAccount = web3Fabric.eth.accounts[0]
-var contractFabricABI = [
+
+contractFabricABI = [
 	{
 		"inputs": [
 			{
@@ -105,18 +106,17 @@ var contractFabricABI = [
 		"type": "function"
 	}
 ];
-var contractFabricBytecode = '608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806312065fe0146037578063fb1669ca146051575b600080fd5b603d6069565b6040516048919060c2565b60405180910390f35b6067600480360381019060639190608f565b6072565b005b60008054905090565b8060008190555050565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220a09ee091933e01dabccaaad72da4d5cc0b65abb9e5ccfe01c10b0d80c9693d1e64736f6c63430008000033'
 
-contractFabricInstance = web3Fabric.eth.contract(contractFabricABI)
+contractFabricBytecode = '608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806312065fe0146037578063fb1669ca146051575b600080fd5b603d6069565b6040516048919060c2565b60405180910390f35b6067600480360381019060639190608f565b6072565b005b60008054905090565b8060008190555050565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220a09ee091933e01dabccaaad72da4d5cc0b65abb9e5ccfe01c10b0d80c9693d1e64736f6c63430008000033'
 
-deployedContract = contractFabricInstance.new([], {data: contractFabricBytecode})
+BalanceOfETH = web3Fabric.eth.contract(contractFabricABI)
+deployedContract = BalanceOfETH.new([], {data: contractFabricBytecode})
+contractFabricInstance = BalanceOfETH.at(web3Fabric.eth.getTransactionReceipt(deployedContract.transactionHash).contractAddress)
+contractFabricInstance = BalanceOfETH.at('0x4468c31da47cbe2943e7d001b708a50a7bcea33c')
 
-myContract = contractFabricInstance.at(web3Fabric.eth.getTransactionReceipt(deployedContract.transactionHash).contractAddress)
-
-myContract = contractFabricInstance.at('0x9e092bfb746687a8ace901ca578098251d4d9d8b')
-
-
+------------------------------------------------------------------------------------------------
 // Gọi hàm trong smart contract
+
 web3ETH.eth.getAccounts(function(err, accounts) {
     if (err) {
         console.error('Error fetching accounts:', err);
@@ -146,3 +146,6 @@ function getOwnerBalance(){
 	return balanceOwnerInEther;
 }
 
+balanceOwner = contractETHInstance.getOwnerBalance();
+contractFabricInstance.setBalance(balanceOwner)
+contractFabricInstance.getBalance()
