@@ -1,20 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >= 0.8.2 <0.9.0;
 
-interface IEthTransfer {
-    function getOwnerBalance() external view returns (uint256);
-}
+contract MintTokenFabric {
+    uint256 balance;
 
-contract BalanceOfETH{
-    IEthTransfer ethTransfer;
-
-    // Địa chỉ của EthTransfer contract được truyền vào constructor
-    constructor(address _ethTransferAddress) {
-        ethTransfer = IEthTransfer(_ethTransferAddress);
+    function setBalance(uint256 value) public {
+        balance = value;
     }
 
-    // Hàm để lấy số dư của owner từ EthTransfer contract
-    function retrieveOwnerBalance() public view returns (uint256) {
-        return ethTransfer.getOwnerBalance();
+    function getBalance() public view returns(uint256) {
+        return balance;
     }
 }
